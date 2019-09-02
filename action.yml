@@ -1,10 +1,17 @@
-name: 'Container Action Template'
-description: 'Get started with Container actions'
-author: 'GitHub'
-inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+name: Issue auto-closer
+description: Automatically closes issues (or pull requests) if the body doesn't match a specified regular expression. Useful for enforcing an issue template.
+author: Scott Walkinshaw
+inputs:
+  issue-close-message:
+    description: Message content to comment on the issue before closing
+  issue-pattern:
+    description: Regular expression pattern which the issue body must match otherwise it's closed
+  pr-close-message:
+    description: Message content to comment on the pull request before closing
+  pr-pattern:
+    description: Regular expression pattern which the pull request body must match otherwise it's closed
+  repo-token:
+    description: GitHub token
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: node12
+  main: lib/main.js
