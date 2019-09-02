@@ -18,7 +18,7 @@ jobs:
       uses: roots/issue-closer@1.0
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-close-message: "`@${issue.user.login} this issue was automatically closed because it did not follow the issue template`"
+        issue-close-message: "@${issue.user.login} this issue was automatically closed because it did not follow the issue template"
         issue-pattern: ".*guidelines for Contributing.*"
 ```
 

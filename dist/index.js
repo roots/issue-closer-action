@@ -1578,7 +1578,7 @@ function getBody(payload) {
     }
 }
 function evalTemplate(template, params) {
-    return Function(...Object.keys(params), "return " + template)(...Object.values(params));
+    return Function(...Object.keys(params), `return \`${template}\``)(...Object.values(params));
 }
 run();
 
