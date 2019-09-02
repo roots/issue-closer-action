@@ -1508,12 +1508,8 @@ function run() {
             }
             const pattern = new RegExp(patternString);
             const body = getBody(payload);
-            if (!body) {
-                core.debug('No body to match against');
-                return;
-            }
             core.debug(`Matching against pattern ${pattern}`);
-            if (body.match(pattern)) {
+            if (body && body.match(pattern)) {
                 core.debug('Body matched. Nothing more to do.');
                 return;
             }
