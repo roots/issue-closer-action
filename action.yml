@@ -1,6 +1,9 @@
 name: Issue auto-closer
 description: Automatically closes issues (or pull requests) if the body doesn't match a specified regular expression.
 author: Scott Walkinshaw
+branding:
+  icon: alert-circle
+  color: green
 inputs:
   issue-close-message:
     description: Message content to comment on the issue before closing
