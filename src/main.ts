@@ -29,7 +29,7 @@ async function run() {
     const payload = context.payload;
 
     if (payload.action !== 'opened') {
-      console.log('No issue or PR was opened, skipping');
+      core.debug('No issue or PR was opened, skipping');
       return;
     }
 
@@ -37,7 +37,7 @@ async function run() {
     const isIssue: boolean = !!payload.issue;
 
     if (!isIssue && !payload.pull_request) {
-      console.log(
+      core.debug(
         'The event that triggered this action was not a pull request or issue, skipping.'
       );
       return;
@@ -51,7 +51,7 @@ async function run() {
     const patternString: string = isIssue ? issuePattern : prPattern;
 
     if (!patternString) {
-      console.log('No pattern provided for this type of contribution');
+      core.debug('No pattern provided for this type of contribution');
       return;
     }
 
@@ -59,32 +59,32 @@ async function run() {
     const body: string | undefined = getBody(payload);
 
     if (!body) {
-      console.log('No body to match against');
+      core.debug('No body to match against');
       return;
     }
 
-    console.log(`Matching against pattern ${pattern}`);
+    core.debug(`Matching against pattern ${pattern}`);
     if (body.match(pattern)) {
-      console.log('Body matched');
+      core.debug('Body matched. Nothing more to do.');
       return;
     } else {
-      console.log('Body did not match');
+      core.debug('Body did not match');
     }
 
     // Do nothing if no message set for this type of contribution
     const closeMessage: string = isIssue ? issueCloseMessage : prCloseMessage;
 
     if (!closeMessage) {
-      console.log('No close message template provided for this type of contribution');
+      core.debug('No close message template provided for this type of contribution');
       return;
     }
 
-    console.log('Creating message from template');
+    core.debug('Creating message from template');
     const message: string = evalTemplate(closeMessage, payload)
     const issueType: string = isIssue ? 'issue' : 'pull request';
 
     // Add a comment to the appropriate place
-    console.log(`Adding message: ${message} to ${issueType} ${issue.number}`);
+    core.debug(`Adding message: ${message} to ${issueType} ${issue.number}`);
     if (isIssue) {
       await client.issues.createComment({
         owner: issue.owner,
@@ -92,6 +92,7 @@ async function run() {
         issue_number: issue.number,
         body: message
       });
+      core.debug('Closing issue');
       await client.issues.update({
         owner: issue.owner,
         repo: issue.repo,
@@ -106,6 +107,7 @@ async function run() {
         body: message,
         event: 'COMMENT'
       });
+      core.debug('Closing PR');
       await client.pulls.update({
         owner: issue.owner,
         repo: issue.repo,
