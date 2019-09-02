@@ -1,5 +1,8 @@
 # GitHub action to automatically close issues/PRs
 
+Automatically close issues or pull requests whose body text does not match the specified regular expression pattern.
+This is useful to enforce usage of issue/PR templates.
+
 ## Installation
 
 To configure the action simply add the following lines to your `.github/main.workflow` workflow file:
