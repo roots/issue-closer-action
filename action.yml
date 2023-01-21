@@ -16,5 +16,5 @@ inputs:
   repo-token:
     description: GitHub token
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
